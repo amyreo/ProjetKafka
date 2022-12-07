@@ -21,4 +21,6 @@ public class Pizza {
 	private String taille;
 	private double prix;
 	private String ingredients;	
+	private String ingredients;
+	
 }
