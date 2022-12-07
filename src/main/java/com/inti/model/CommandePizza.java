@@ -1,5 +1,6 @@
 package com.inti.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,19 +22,12 @@ import lombok.NoArgsConstructor;
 public class CommandePizza {
 	
 	@Id
-	public long idCommandePizza;
+	public int idCommandePizza;
 	public List<Pizza> listePizza;
-	public int prixCommande ;
+	public double prixCommande ;
 	
-	public CommandePizza(long idCommandePizza, List<Pizza> listePizza, int prixCommande) {
-		super();
-		this.idCommandePizza = idCommandePizza;
-		this.listePizza = listePizza;
-		this.prixCommande = prixCommande;
-	}
 
-
-
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idCommandeComptoir")
 	private CommandeComptoir commandeComptoir ;

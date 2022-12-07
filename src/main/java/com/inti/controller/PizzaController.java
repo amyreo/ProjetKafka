@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.inti.model.Pizza;
 import com.inti.repository.IPizzaRepository;
-
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,15 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/Pizza")
 @Slf4j
 public class PizzaController {
-	
+
 	@Autowired
 	IPizzaRepository ipr;
-	
+
 	@PostMapping("/savePizza")
-	public boolean savePizza (@RequestBody Pizza p) 
-	{
-		if(p.getId()>0) 
-		{
+	public boolean savePizza(@RequestBody Pizza p) {
+		if (p.getId() > 0) {
 			log.info("Le compte a bien été creer");
 			ipr.save(p);
 			return true;
@@ -39,17 +35,15 @@ public class PizzaController {
 		log.error("Veuillez saisir un numero de compte valide");
 		return false;
 	}
-	
+
 	@GetMapping("/listePizzas")
-	public List<Pizza> cartePizza()
-	{
+	public List<Pizza> cartePizza() {
 		log.info("Liste de toutes les pizzas");
 		return ipr.cartePizza();
 	}
-	
+
 	@GetMapping("/getPizza/{id}")
-	public Pizza getPizza (@PathVariable int id) 
-	{
+	public Pizza getPizza(@PathVariable int id) {
 		try {
 			log.info("La pizza a bien été affichée");
 			return ipr.findById(id).get();
@@ -59,10 +53,9 @@ public class PizzaController {
 		log.error("Veuillez saisir un id de pizza valide");
 		return null;
 	}
-	
+
 	@DeleteMapping("/deletePizza/{id}")
-	public boolean deletePizza (@PathVariable int id) 
-	{
+	public boolean deletePizza(@PathVariable int id) {
 		if (id != 0) {
 			log.info("La pizza a bien été supprimée");
 			ipr.deleteById(id);
@@ -71,7 +64,7 @@ public class PizzaController {
 		log.error("Veuillez saisir un id de pizza valide");
 		return false;
 	}
-	
+
 	@PutMapping("/updatePizza/{id}")
 	public Pizza updatePizza(@RequestBody Pizza nouvelPizza, @PathVariable int id) {
 		return ipr.findById(id).map(Pizza -> {
@@ -86,8 +79,11 @@ public class PizzaController {
 		}).orElseGet(() -> {
 			return ipr.save(nouvelPizza);
 		});
-	
-	
+	}
 
-}
+	public double prixPizza() {
+		
+			return ipr.prixPizza();
+	}
+
 }
