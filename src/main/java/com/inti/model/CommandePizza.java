@@ -24,9 +24,16 @@ public class CommandePizza {
 	public long idCommandePizza;
 	public List<Pizza> listePizza;
 	public int prixCommande ;
-
-
 	
+	public CommandePizza(long idCommandePizza, List<Pizza> listePizza, int prixCommande) {
+		super();
+		this.idCommandePizza = idCommandePizza;
+		this.listePizza = listePizza;
+		this.prixCommande = prixCommande;
+	}
+
+
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idCommandeComptoir")
 	private CommandeComptoir commandeComptoir ;

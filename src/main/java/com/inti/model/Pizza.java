@@ -25,5 +25,5 @@ public class Pizza {
 	private String typePate;
 	private boolean livraison;
 	private String heureLivraison;
-
+	
 }
