@@ -64,7 +64,7 @@ public class CommandePizzaController {
 		commandeComptoir.setPrixCommande(prix);
 		commandeComptoir.setIdCommandeComptoir(numCommande);
 		commandeComptoir.setNomClient(nom);
-	CommandePizza commandeClient = new CommandePizza(numCommande, listeCommande,prix ,commandeComptoir);
+	CommandePizza commandeClient = new CommandePizza(numCommande, prix, listeCommande, commandeComptoir);
 	System.out.println(commandeClient.toString());
 	numCommande++;
 	}

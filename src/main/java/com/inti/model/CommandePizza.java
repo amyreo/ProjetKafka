@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -23,12 +25,20 @@ public class CommandePizza {
 	
 	@Id
 	public int idCommandePizza;
-	public List<Pizza> listePizza;
+	
 	public double prixCommande ;
 	
 
+	@OneToMany
+	@JoinTable(name="Pizza_CommandePizza",
+				joinColumns = @JoinColumn (name ="idPizza"),
+					inverseJoinColumns = @JoinColumn(name="idCommandePizza"))
+	public List<Pizza> listePizza;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idCommandeComptoir")
 	private CommandeComptoir commandeComptoir ;
+
+
+	
 }
