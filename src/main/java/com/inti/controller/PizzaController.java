@@ -37,9 +37,10 @@ public class PizzaController {
 	}
 
 	@GetMapping("/listePizzas")
-	public List<Pizza> listePizzas() {
+
+	public List<Pizza> cartePizza() {
 		log.info("Liste de toutes les pizzas");
-		return ipr.findAll();
+		return ipr.cartePizza();
 	}
 
 	@GetMapping("/getPizza/{id}")
@@ -79,6 +80,10 @@ public class PizzaController {
 		}).orElseGet(() -> {
 			return ipr.save(nouvelPizza);
 		});
+	}
 
+	public double prixPizza() {
+		
+			return ipr.prixPizza();
 	}
 }
