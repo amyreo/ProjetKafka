@@ -36,7 +36,6 @@ public class PizzaController {
 			return true;
 		}
 
-
 		log.error("Veuillez saisir un identifiant valide");
 		return false;
 	}

@@ -5,6 +5,10 @@ import java.util.Scanner;
 
 import org.apache.kafka.common.message.ListGroupsResponseData.ListedGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +18,11 @@ import com.inti.model.CommandePizza;
 import com.inti.model.Pizza;
 import com.inti.repository.IPizzaRepository;
 
+
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@Slf4j
 public class CommandePizzaController {
 
 	Scanner scan = new Scanner(System.in);
@@ -22,6 +30,9 @@ public class CommandePizzaController {
 	
 	@Autowired
 	IPizzaRepository ipr;
+	
+	@Autowired
+	KafkaTemplate<Object, CommandePizza> kte;
 
 	
 	public void creationCommande() {
@@ -56,6 +67,17 @@ public class CommandePizzaController {
 	CommandePizza commandeClient = new CommandePizza(numCommande, listeCommande,prix ,commandeComptoir);
 	System.out.println(commandeClient.toString());
 	numCommande++;
+	}
+	
+	@GetMapping("/sendPizza")
+	public void SendPizza(CommandePizza commandePizza)
+	{
+		log.info("l'objet " + commandePizza + "a bien été envoyé");
+	
+		Message <CommandePizza> mess =MessageBuilder
+		 .withPayload(commandePizza)
+		 .setHeader(KafkaHeaders.TOPIC, "topicComptoir}").build();
+		kte.send(mess);
 	}
 	
 
