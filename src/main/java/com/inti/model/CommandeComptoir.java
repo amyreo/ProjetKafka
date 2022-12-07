@@ -19,6 +19,7 @@ public class CommandeComptoir {
 	@Id
 	private long idCommandeComptoir;
 	private double prixCommande;
+	private String nomClient;
 	private boolean aPayer;
 
 //	@OneToOne(cascade = CascadeType.ALL)
