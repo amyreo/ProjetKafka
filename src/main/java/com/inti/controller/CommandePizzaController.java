@@ -32,9 +32,6 @@ public class CommandePizzaController {
 		for (int i = 0; i<listePizza.size(); i++) {
 			System.out.println("combien voulez vous de " + listePizza.get(i) + " ?" );
 			int nbrPizza =scan.nextInt();
-			
-			
-			
 		count++;	
 		prix += nbrPizza * ipr.prixPizza();
 		}
