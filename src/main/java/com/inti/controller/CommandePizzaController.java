@@ -53,22 +53,16 @@ public class CommandePizzaController {
 
 	@GetMapping("/comptoir")
 	public void prixAPayer() {
-		double somme = 0;
-
-		// for each get prix*qtité et faire le total à payer grâce à la variable somme.
-
-		System.out.println("Le montant de vos délicieuses pizza s'élève à " + somme + " €");
+		
+//		System.out.println("Le montant des pizzas du client s'élève à " + prix + " €");
 	}
 
 	@GetMapping("/cuisine")
 	public void pizzaAFaire() {
-		int quantite = 0;
 
-		// récupérer la liste de pizza à faire avec leurs quantités(for each pizza add
-		// to the list)
-		// for each get quantité et faire le total de pizza à faire grâce à la variable
-		// quantité.
+		// récupérer la liste de pizza à faire avec leurs quantités(for each pizza add to the list)
+		// for each get quantité et faire le total de pizza à faire grâce à la variable quantité.
 
-//		System.out.println("La quantité de pizza à faire est de "+quantite+".\n Les pizzas à faire sont les suivantes : "+listePizzas);
+//		System.out.println("Les pizzas à faire sont les suivantes : "+listePizzas);
 	}
 }
