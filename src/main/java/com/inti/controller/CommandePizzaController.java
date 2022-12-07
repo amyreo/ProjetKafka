@@ -18,23 +18,29 @@ import com.inti.repository.IPizzaRepository;
 public class CommandePizzaController {
 
 	Scanner scan = new Scanner(System.in);
-
+	int numCommande=0;
+	
 	@Autowired
 	IPizzaRepository ipr;
-//	ArrayList<Pizza> listePizzas = new ArrayList<>();
 
+	
 	public void creationCommande() {
 		
-	ArrayList<Pizza> listePizza =  (ArrayList<Pizza>) ipr.cartePizza();
-	int count =0;
+	ArrayList<Pizza> listeCommande = new ArrayList<>();
+		
 	double prix=0;
+	
+	System.out.println("Quelle pizza voulez vous ? Rentrer son identifiant.");
+	int idPizza = scan.nextInt();
+	do {
+	Pizza pizzaClient = ipr.getReferenceById(idPizza);
+	listeCommande.add(idPizza, pizzaClient);
+	prix += ipr.prixPizza(idPizza);
+	System.out.println("Si vous voulez une autre pizza rentrer son identifiant même si vous en voulez une du même type ou si vous avez terminé rentrer 777");
+	idPizza = scan.nextInt();
+	}while(idPizza != 777);
+	
 	CommandeComptoir commandeComptoir = new CommandeComptoir();
-		for (int i = 0; i<listePizza.size(); i++) {
-			System.out.println("combien voulez vous de " + listePizza.get(i) + " ?" );
-			int nbrPizza =scan.nextInt();
-		count++;	
-		prix += nbrPizza * ipr.prixPizza();
-		}
 		System.out.println("voulez vous payer sur place ou a emporté ? P/E" );	
 		String payer =scan.next();
 		System.out.println("votre nom ?" );	
@@ -45,11 +51,13 @@ public class CommandePizzaController {
 		commandeComptoir.setAPayer(true);
 		}
 		commandeComptoir.setPrixCommande(prix);
-		commandeComptoir.setIdCommandeComptoir(count);
+		commandeComptoir.setIdCommandeComptoir(numCommande);
 		commandeComptoir.setNomClient(nom);
-	CommandePizza commandeClient = new CommandePizza(count, listePizza,prix ,commandeComptoir);
+	CommandePizza commandeClient = new CommandePizza(numCommande, listeCommande,prix ,commandeComptoir);
 	System.out.println(commandeClient.toString());
+	numCommande++;
 	}
+	
 
 	@GetMapping("/comptoir")
 	public void prixAPayer() {

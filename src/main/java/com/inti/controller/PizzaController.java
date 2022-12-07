@@ -27,15 +27,17 @@ public class PizzaController {
 
 	@PostMapping("/savePizza")
 
-	public boolean savePizza (@RequestBody Pizza p) 
-	{
-		if(p.getId()>0) 
-		{
-			log.info("La pizza a bien été creer");
+
+	
+	public boolean savePizza(@RequestBody Pizza p) {
+		if (p.getId() > 0) {
+			log.info("La pizza a bien été créé");
 			ipr.save(p);
 			return true;
 		}
-		log.error("Veuillez saisir un id de pizza valide");
+
+
+		log.error("Veuillez saisir un identifiant valide");
 		return false;
 	}
 
@@ -84,7 +86,6 @@ public class PizzaController {
 	}
 
 	public double prixPizza() {
-		
-			return ipr.prixPizza();
+			return ipr.prixPizza(0);
 	}
 }
