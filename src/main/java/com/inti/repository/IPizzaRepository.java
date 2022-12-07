@@ -15,6 +15,6 @@ public interface IPizzaRepository extends JpaRepository<Pizza, Integer> {
 	@Query (value = "select id,nom,prix, ingredients from Pizza", nativeQuery = true)
 	List<Pizza> cartePizza ();
 
-	@Query (value = "select prix from Pizza", nativeQuery = true)
-	double prixPizza ();
+	@Query (value = "select prix from Pizza where id =:idPizza", nativeQuery = true)
+	double prixPizza (@Param("idPizza")int idPizza);
 }
