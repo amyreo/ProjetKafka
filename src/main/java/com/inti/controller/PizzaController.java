@@ -28,11 +28,11 @@ public class PizzaController {
 	@PostMapping("/savePizza")
 	public boolean savePizza(@RequestBody Pizza p) {
 		if (p.getId() > 0) {
-			log.info("Le compte a bien été creer");
+			log.info("La pizza a bien été créé");
 			ipr.save(p);
 			return true;
 		}
-		log.error("Veuillez saisir un numero de compte valide");
+		log.error("Veuillez saisir un identifiant valide");
 		return false;
 	}
 
