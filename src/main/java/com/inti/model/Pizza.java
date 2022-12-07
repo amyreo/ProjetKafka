@@ -20,7 +20,6 @@ public class Pizza {
 	private String nom;
 	private String taille;
 	private double prix;
-	private int quantite;
 	private String ingredients;
 	private String typePate;
 	private boolean livraison;
