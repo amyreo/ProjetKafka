@@ -41,10 +41,10 @@ public class PizzaController {
 	}
 
 	@GetMapping("/listePizzas")
-
 	public List<Pizza> cartePizza() {
 		log.info("Liste de toutes les pizzas");
-		return ipr.cartePizza();
+//		return ipr.cartePizza();
+		return ipr.findAll();
 	}
 
 	@GetMapping("/getPizza/{id}")
@@ -84,7 +84,8 @@ public class PizzaController {
 		});
 	}
 
-	public double prixPizza() {
-			return ipr.prixPizza(0);
+	@GetMapping("/prixPizza/{id}")
+	public double prixPizza(@PathVariable int id) {
+			return ipr.prixPizza(id);
 	}
 }

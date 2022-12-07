@@ -12,7 +12,7 @@ import com.inti.model.Pizza;
 @Repository
 public interface IPizzaRepository extends JpaRepository<Pizza, Integer> {
 	
-	@Query (value = "select id,nom,prix, ingredients from Pizza", nativeQuery = true)
+	@Query (value = "select id, ingredients, nom, prix from pizza", nativeQuery = true)
 	List<Pizza> cartePizza ();
 
 	@Query (value = "select prix from Pizza where id =:idPizza", nativeQuery = true)

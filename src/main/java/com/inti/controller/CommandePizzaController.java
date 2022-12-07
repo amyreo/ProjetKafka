@@ -1,26 +1,26 @@
 package com.inti.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-import org.apache.kafka.common.message.ListGroupsResponseData.ListedGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inti.model.CommandeComptoir;
 import com.inti.model.CommandePizza;
 import com.inti.model.Pizza;
+import com.inti.repository.ICommandeRepository;
 import com.inti.repository.IPizzaRepository;
+import com.inti.service.KafkaProducerPizza;
 
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@Service
 @Slf4j
 public class CommandePizzaController {
 
@@ -28,11 +28,23 @@ public class CommandePizzaController {
 	int numCommande = 0;
 
 	@Autowired
+	KafkaProducerPizza kpp;
+	
+	@Autowired
 	IPizzaRepository ipr;
 
 	@Autowired
-	KafkaTemplate<Object, CommandePizza> kte;
+	KafkaTemplate<String, CommandePizza> kte;
 
+	@Autowired
+	ICommandeRepository icr;
+	
+	@GetMapping("/listeId")
+	public List<Integer> listeIDs() {
+		return icr.listeIdCommandes();
+	}
+
+	@GetMapping("/creationCommande")
 	public void creationCommande() {
 
 		ArrayList<Pizza> listeCommande = new ArrayList<>();
@@ -41,9 +53,12 @@ public class CommandePizzaController {
 
 		System.out.println("Quelle pizza voulez vous ? Rentrer son identifiant.");
 		int idPizza = scan.nextInt();
+
+		Pizza pizzaClient = ipr.getReferenceById(idPizza);
+
 		do {
-			Pizza pizzaClient = ipr.getReferenceById(idPizza);
-			listeCommande.add(idPizza, pizzaClient);
+			listeCommande.add(pizzaClient);
+//			System.out.println("test");
 			prix += ipr.prixPizza(idPizza);
 			System.out.println(
 					"Si vous voulez une autre pizza rentrer son identifiant même si vous en voulez une du même type ou si vous avez terminé rentrer 777");
@@ -66,15 +81,23 @@ public class CommandePizzaController {
 		CommandePizza commandeClient = new CommandePizza(numCommande, prix, listeCommande, commandeComptoir);
 		System.out.println(commandeClient.toString());
 		numCommande++;
+		icr.save(commandeClient);
 	}
 
 	@GetMapping("/sendPizza")
-	public void SendPizza(CommandePizza commandePizza) {
-		log.info("l'objet " + commandePizza + "a bien été envoyé");
-
-		Message<CommandePizza> mess = MessageBuilder.withPayload(commandePizza)
-				.setHeader(KafkaHeaders.TOPIC, "topicComptoir").build();
-		kte.send(mess);
+	public void sendPizzaCall() {
+		kpp.sendPizza();
+//		Message<CommandePizza> mess = MessageBuilder.withPayload(listeCommandes.get(0))
+//				.setHeader(KafkaHeaders.TOPIC, "topicComptoir").build();
+//		kte.send(mess);
+//		for (CommandePizza commandePizza2 : listeCommandes) {
+//			System.out.println("test");
+//			Message<CommandePizza> mess = MessageBuilder.withPayload(commandePizza2)
+//					.setHeader(KafkaHeaders.TOPIC, "topicComptoir").build();
+//			kte.send(mess);
+//			log.info("l'objet " + commandePizza2 + "a bien été envoyé");
+//		}
+//		log.info("La liste des commandes a été envoyée.");
 	}
 
 	@GetMapping("/comptoir")

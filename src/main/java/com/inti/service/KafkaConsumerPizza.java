@@ -16,24 +16,31 @@ import lombok.extern.slf4j.Slf4j;
 public class KafkaConsumerPizza {
 
 	@KafkaListener(topics = "topicComptoir", groupId = "myGroup")
-	public void consumerComptoir(CommandePizza commandePizza) {
-		log.info("La liste des pizzas commandées est la suivante : ");
-		CommandeComptoir cc = commandePizza.getCommandeComptoir();
-		List<Pizza> listePizza = commandePizza.getListePizza();
-		int qtePizza = listePizza.size();
-		log.info("Le prix de la commande est de : " + cc.getPrixCommande() + " pour " + qtePizza + " pizzas au total.");
-		for (Pizza pizza : listePizza) {
-			log.info("Pizza : " + pizza.getNom());
+	public void consumerComptoir(List<CommandePizza> listeCommandes) {
+		for (CommandePizza commandePizza2 : listeCommandes) {
+			log.info("La liste des pizzas commandées est la suivante : ");
+			CommandeComptoir cc = commandePizza2.getCommandeComptoir();
+			List<Pizza> listePizza = commandePizza2.getListePizza();
+			int qtePizza = listePizza.size();
+			log.info("Le prix de la commande est de : " + cc.getPrixCommande() + " pour " + qtePizza
+					+ " pizzas au total.");
+			for (Pizza pizza : listePizza) {
+				log.info("Pizza : " + pizza.getNom());
+			}
 		}
+
 	}
 
 	@KafkaListener(topics = "topicCuisine", groupId = "myGroup")
-	public void consumerCuisine(CommandePizza commandePizza) {
-		List<Pizza> listePizza = commandePizza.getListePizza();
-		log.info("La liste des pizzas à cuisiner est la suivante : ");
-		for (Pizza pizza : listePizza) {
-			log.info("Pizza : " + pizza.getNom() + pizza.getIngredients());
+	public void consumerCuisine(List<CommandePizza> listeCommandes) {
+		for (CommandePizza commandePizza2 : listeCommandes) {
+			List<Pizza> listePizza = commandePizza2.getListePizza();
+			log.info("La liste des pizzas à cuisiner est la suivante : ");
+			for (Pizza pizza : listePizza) {
+				log.info("Pizza : " + pizza.getNom() + pizza.getIngredients());
+			}
 		}
+
 	}
 
 }
