@@ -76,7 +76,7 @@ public class CommandePizzaController {
 	
 		Message <CommandePizza> mess =MessageBuilder
 		 .withPayload(commandePizza)
-		 .setHeader(KafkaHeaders.TOPIC, "topicComptoir}").build();
+		 .setHeader(KafkaHeaders.TOPIC, "topicComptoir}").build(); 
 		kte.send(mess);
 	}
 	
