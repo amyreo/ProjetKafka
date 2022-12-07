@@ -74,8 +74,6 @@ public class PizzaController {
 			Pizza.setTaille(nouvelPizza.getTaille());
 			Pizza.setPrix(nouvelPizza.getPrix());
 			Pizza.setIngredients(nouvelPizza.getIngredients());
-			Pizza.setTypePate(nouvelPizza.getTypePate());
-			Pizza.setHeureLivraison(nouvelPizza.getHeureLivraison());
 			return ipr.save(Pizza);
 		}).orElseGet(() -> {
 			return ipr.save(nouvelPizza);
