@@ -32,11 +32,11 @@ public class PizzaController {
 	{
 		if(p.getId()>0) 
 		{
-			log.info("Le compte a bien été creer");
+			log.info("La pizza a bien été creer");
 			ipr.save(p);
 			return true;
 		}
-		log.error("Veuillez saisir un numero de compte valide");
+		log.error("Veuillez saisir un id de pizza valide");
 		return false;
 	}
 	
